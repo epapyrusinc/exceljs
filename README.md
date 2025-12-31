@@ -1,10 +1,30 @@
-# ExcelJS
+# ExcelJS (Epapyrus Fork)
+
+> This is a fork of exceljs, maintained by Epapyrus.   
+> Original project: https://github.com/exceljs/exceljs
 
 [![Build Status](https://github.com/exceljs/exceljs/actions/workflows/tests.yml/badge.svg?branch=master&event=push)](https://github.com/exceljs/exceljs/actions/workflows/tests.yml)
 
 Read, manipulate and write spreadsheet data and styles to XLSX and JSON.
 
 Reverse engineered from Excel spreadsheet files as a project.
+
+# Purpose of Fork
+
+This fork exists to address practical needs not currently met by the upstream project:
+
+- **Specific bug fixes**  
+  Implements targeted patches for issues that are critical to our production use cases.
+
+- **Internal requirement support**  
+  Adds and maintains functionality required by internal products and workflows at Epapyrus.
+
+- **Temporary maintenance for internal needs**  
+  Maintains a fork tailored to current internal requirements as an interim solution, until a more suitable upstream revival or alternative library is adopted.
+
+- **Inactive upstream**  
+  The upstream project has limited or no active maintenance, making a maintained fork necessary.
+
 
 # Translations
 
