@@ -116,6 +116,12 @@ describe('Cell', () => {
     expect(a1.value).to.deep.equal(formulaValue);
     expect(a1.type).to.equal(Enums.ValueType.Formula);
 
+    // preserve falsy-but-valid formula result values (e.g. 0)
+    formulaValue = {formula: 'A2', result: 0};
+    expect((a1.value = formulaValue)).to.deep.equal(formulaValue);
+    expect(a1.value).to.deep.equal(formulaValue);
+    expect(a1.type).to.equal(Enums.ValueType.Formula);
+
     // no result
     formulaValue = {formula: 'A3'};
     expect((a1.value = formulaValue)).to.deep.equal(formulaValue);
@@ -399,10 +405,7 @@ describe('Cell', () => {
     expect(a1.model.comment.note.protection).to.deep.equal(comment.protection);
     expect(a1.model.comment.note.margins.insetmode).to.equal('auto');
     expect(a1.model.comment.note.margins.inset).to.deep.equal([
-      0.13,
-      0.13,
-      0.25,
-      0.25,
+      0.13, 0.13, 0.25, 0.25,
     ]);
     expect(a1.model.comment.note.editAs).to.equal('absolute');
   });

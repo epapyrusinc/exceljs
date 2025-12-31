@@ -36,6 +36,9 @@ describe('Worksheet', () => {
       // number formula
       ws.getCell('A2').value = {formula: 'A1', result: 7};
 
+      // number formula with a falsy-but-valid result (e.g. Excel cached formula result 0)
+      ws.getCell('D2').value = {formula: 'A1-A1', result: 0};
+
       // string formula
       ws.getCell('B2').value = {
         formula: 'CONCATENATE("Hello", ", ", "World!")',
@@ -57,6 +60,9 @@ describe('Worksheet', () => {
 
       expect(ws.getCell('A2').value.formula).to.equal('A1');
       expect(ws.getCell('A2').value.result).to.equal(7);
+
+      expect(ws.getCell('D2').value.formula).to.equal('A1-A1');
+      expect(ws.getCell('D2').value.result).to.equal(0);
 
       expect(ws.getCell('B2').value.formula).to.equal(
         'CONCATENATE("Hello", ", ", "World!")'

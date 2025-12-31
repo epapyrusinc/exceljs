@@ -1,9 +1,11 @@
 const fs = require('fs');
+const {PassThrough} = require('readable-stream');
 
 const testXformHelper = require('../test-xform-helper');
 
 const StylesXform = verquire('xlsx/xform/style/styles-xform');
 const XmlStream = verquire('utils/xml-stream');
+const parseSax = verquire('utils/parse-sax');
 
 const expectations = [
   {
@@ -43,7 +45,10 @@ describe('StylesXform', () => {
 
           // ensure we didn't stop parsing at the border dxf
           expect(model.dxfs[25].fill.type).to.equal('pattern');
-          expect(model.dxfs[25].fill.bgColor).to.deep.equal({theme: 0, tint: -0.14996795556505021});
+          expect(model.dxfs[25].fill.bgColor).to.deep.equal({
+            theme: 0,
+            tint: -0.14996795556505021,
+          });
 
           resolve();
         })
