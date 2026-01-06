@@ -1099,6 +1099,13 @@ export interface Worksheet {
 	readonly workbook: Workbook;
 	readonly hasMerges: boolean;
 
+	/**
+	 * Internal merge tracking.
+	 * - Normal worksheets: keyed by master cell address (e.g. "A1") to the merge range.
+	 * - Streaming worksheets: array of merge ranges (with an internal no-op `add()`).
+	 */
+	_merges: Partial<Record<string, Range>> | (Range[] & { add?: (merge: { address: string; master: string }) => void });
+
 	readonly dimensions: Range;
 	/**
 	 * Contains information related to how a worksheet is printed
