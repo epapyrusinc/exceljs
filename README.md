@@ -1,6 +1,6 @@
-# ExcelJS (Epapyrus Fork)
+# ExcelJS (ePapyrus Fork)
 
-> This is a fork of exceljs, maintained by Epapyrus.   
+> This is a fork of exceljs, maintained by ePapyrus.   
 > Original project: https://github.com/exceljs/exceljs
 
 [![Build Status](https://github.com/exceljs/exceljs/actions/workflows/tests.yml/badge.svg?branch=master&event=push)](https://github.com/exceljs/exceljs/actions/workflows/tests.yml)
@@ -17,7 +17,7 @@ This fork exists to address practical needs not currently met by the upstream pr
   Implements targeted patches for issues that are critical to our production use cases.
 
 - **Internal requirement support**  
-  Adds and maintains functionality required by internal products and workflows at Epapyrus.
+  Adds and maintains functionality required by internal products and workflows at ePapyrus.
 
 - **Temporary maintenance for internal needs**  
   Maintains a fork tailored to current internal requirements as an interim solution, until a more suitable upstream revival or alternative library is adopted.
