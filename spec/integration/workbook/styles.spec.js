@@ -49,6 +49,9 @@ describe('Workbook', () => {
         })
         .then(wb2 => {
           const ws2 = wb2.getWorksheet('blort');
+          expect(wb2.styles).to.be.an('object');
+          expect(wb2.styles.cellStyleXfs).to.be.an('array');
+          expect(wb2.styles.styles).to.be.an('array');
           ['A1', 'B1', 'C1', 'A2', 'B2', 'C2', 'A3', 'B3', 'C3'].forEach(
             address => {
               expect(ws2.getCell(address).value).to.equal(address);

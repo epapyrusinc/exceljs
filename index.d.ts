@@ -1688,6 +1688,44 @@ export interface DefinedNames {
 	model: DefinedNamesModel;
 }
 
+export interface OoxmlNumFmtModel {
+	id: number;
+	formatCode: string;
+}
+
+export interface OoxmlXfModel {
+	numFmtId: number;
+	fontId: number;
+	fillId: number;
+	borderId: number;
+	xfId?: number;
+	applyNumberFormat?: boolean;
+	applyFont?: boolean;
+	applyFill?: boolean;
+	applyBorder?: boolean;
+	applyAlignment?: boolean;
+	applyProtection?: boolean;
+	alignment?: Alignment;
+	protection?: Protection;
+}
+
+export interface OoxmlStylesModel {
+	numFmts?: OoxmlNumFmtModel[];
+	fonts?: Font[];
+	fills?: Fill[];
+	borders?: Borders[];
+	cellStyleXfs?: OoxmlXfModel[];
+	styles?: OoxmlXfModel[];
+	dxfs?: Array<{
+		alignment?: Alignment;
+		border?: Borders;
+		fill?: Fill;
+		font?: Font;
+		numFmt?: OoxmlNumFmtModel;
+		protection?: Protection;
+	}>;
+}
+
 export interface WorkbookModel {
 	creator: string;
 	lastModifiedBy: string;
@@ -1709,7 +1747,7 @@ export interface WorkbookModel {
 	language: string;
 	revision: Date;
 	contentStatus: string;
-	themes: string[];
+	styles?: OoxmlStylesModel;
 	media: Media[];
 }
 
@@ -1727,6 +1765,7 @@ export class Workbook {
 	properties: WorkbookProperties;
 	subject: string;
     title: string;
+	styles?: OoxmlStylesModel;
 
 	/**
 	 * Workbook calculation Properties
