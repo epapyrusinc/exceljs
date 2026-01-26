@@ -1688,6 +1688,62 @@ export interface DefinedNames {
 	model: DefinedNamesModel;
 }
 
+export interface ThemeXmlNode {
+	tag: string;
+	attrs: Record<string, string>;
+	children: Array<ThemeXmlNode | string>;
+}
+
+export interface ThemeColorTransform {
+	tag: string;
+	attrs: Record<string, string>;
+}
+
+export interface ThemeColorChoice {
+	type: 'sysClr' | 'srgbClr' | 'schemeClr' | 'prstClr' | 'scrgbClr' | 'hslClr' | string;
+	attrs: Record<string, string>;
+	transforms?: ThemeColorTransform[];
+}
+
+export type ThemeClrSchemeIndex =
+	| 'dk1' | 'lt1' | 'dk2' | 'lt2'
+	| 'accent1' | 'accent2' | 'accent3' | 'accent4' | 'accent5' | 'accent6'
+	| 'hlink' | 'folHlink';
+
+export interface ThemeClrScheme {
+	name: string;
+	colors: Partial<Record<ThemeClrSchemeIndex, ThemeColorChoice>>;
+}
+
+export interface ThemeFontCollection {
+	latin?: Record<string, string>;
+	ea?: Record<string, string>;
+	cs?: Record<string, string>;
+	fonts?: Array<{ script: string; typeface: string }>;
+}
+
+export interface ThemeFontScheme {
+	name: string;
+	majorFont: ThemeFontCollection;
+	minorFont: ThemeFontCollection;
+}
+
+export interface ThemeElementsModel {
+	clrScheme: ThemeClrScheme;
+	fontScheme: ThemeFontScheme;
+	fmtScheme: ThemeXmlNode;
+	extLst?: ThemeXmlNode;
+}
+
+export interface OfficeStyleSheetModel {
+	name?: string;
+	themeElements: ThemeElementsModel;
+	objectDefaults?: ThemeXmlNode;
+	extraClrSchemeLst?: ThemeXmlNode;
+	custClrLst?: ThemeXmlNode;
+	extLst?: ThemeXmlNode;
+}
+
 export interface OoxmlNumFmtModel {
 	id: number;
 	formatCode: string;
@@ -1747,6 +1803,7 @@ export interface WorkbookModel {
 	language: string;
 	revision: Date;
 	contentStatus: string;
+	themes?: Record<string, OfficeStyleSheetModel>;
 	styles?: OoxmlStylesModel;
 	media: Media[];
 }
@@ -1817,6 +1874,8 @@ export class Workbook {
 	 * Note: `workbook.worksheets.forEach` will still work but this is better.
 	 */
 	eachSheet(callback: (worksheet: Worksheet, id: number) => void): void;
+
+	_themes?: Record<string, OfficeStyleSheetModel>;
 
 	clearThemes(): void;
 
