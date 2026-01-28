@@ -1118,8 +1118,12 @@ export interface DataBarRuleType extends ConditionalFormattingBaseRule {
 	cfvo?: Cvfo[];
 }
 
+export interface ValuesRuleType extends ConditionalFormattingBaseRule {
+	type: 'uniqueValues' | 'duplicateValues';
+}
+
 export type ConditionalFormattingRule = ExpressionRuleType | CellIsRuleType | Top10RuleType | AboveAverageRuleType | ColorScaleRuleType | IconSetRuleType
-	| ContainsTextRuleType | TimePeriodRuleType | DataBarRuleType;
+	| ContainsTextRuleType | TimePeriodRuleType | DataBarRuleType | ValuesRuleType;
 
 
 export type RowValues = CellValue[] | { [key: string]: CellValue } | undefined | null; 
