@@ -1054,6 +1054,7 @@ export interface Cvfo {
 export interface ConditionalFormattingBaseRule {
 	priority?: number;
 	stopIfTrue?: boolean;
+	dxfId?: number;
 	style?: Partial<Style>;
 }
 export interface ExpressionRuleType extends ConditionalFormattingBaseRule {
