@@ -921,5 +921,40 @@ describe('Worksheet', () => {
       expect(ws.columnCount).to.equal(6);
       expect(ws.actualColumnCount).to.equal(4);
     });
+
+    it('iterates formatting-only rows and style-only cells by default', () => {
+      const wb = new Excel.Workbook();
+      const ws = wb.addWorksheet('blort');
+
+      // Row exists in the sheet for geometry only (e.g. `<row r="10" ht="19" />`)
+      ws.getRow(10).height = 19;
+
+      // Row exists with styled-but-empty cells (e.g. `<c r="A11" s="3" />`)
+      const Enums = verquire('doc/enums');
+      ws.getRow(11).model = {
+        number: 11,
+        min: 1,
+        max: 3,
+        style: {},
+        cells: [
+          {address: 'A11', type: Enums.ValueType.Null, styleId: 3},
+          {address: 'C11', type: Enums.ValueType.Null, styleId: 2},
+        ],
+      };
+
+      const rowsSeen = [];
+      ws.eachRow((row, rowNumber) => {
+        rowsSeen.push(rowNumber);
+      });
+      expect(rowsSeen).to.deep.equal([10, 11]);
+
+      const colsSeen = [];
+      ws.getRow(11).eachCell((cell, colNumber) => {
+        colsSeen.push(colNumber);
+        expect(cell.type).to.equal(Enums.ValueType.Null);
+        expect(cell.styleId).to.be.greaterThan(0);
+      });
+      expect(colsSeen).to.deep.equal([1, 3]);
+    });
   });
 });

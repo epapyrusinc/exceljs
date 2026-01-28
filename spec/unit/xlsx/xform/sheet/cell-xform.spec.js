@@ -159,8 +159,7 @@ const expectations = [
         ],
       },
     },
-    xml:
-      '<c r="A1" t="inlineStr"><is><r><rPr><color rgb="FF0000"/></rPr><t>red</t></r><r><rPr><color rgb="00FF00"/></rPr><t>green</t></r></is></c>',
+    xml: '<c r="A1" t="inlineStr"><is><r><rPr><color rgb="FF0000"/></rPr><t>red</t></r><r><rPr><color rgb="00FF00"/></rPr><t>green</t></r></is></c>',
     parsedModel: {
       address: 'A1',
       type: Enums.ValueType.String,
@@ -286,6 +285,7 @@ const expectations = [
       address: 'A1',
       type: Enums.ValueType.Date,
       value: new Date('2016-06-09T00:00:00.000Z'),
+      styleId: 1,
       style: {numFmt: 'mm-dd-yy'},
     },
     tests: ['prepare', 'render', 'renderIn', 'parse', 'reconcile'],

@@ -412,6 +412,11 @@ export type CellValue =
 export interface CellModel {
 	address: Address;
 	style: Style;
+	/**
+	 * Raw SpreadsheetML cell style index attribute (`s`).
+	 * This is the cellXfs index in styles.xml as found in the source file.
+	 */
+	styleId?: number;
 	type: ValueType;
 	text?: string;
 	hyperlink?: string;
@@ -428,6 +433,11 @@ export interface Cell extends Style, Address {
 	readonly workbook: Workbook;
 
 	readonly effectiveType: ValueType;
+	/**
+	 * Raw SpreadsheetML cell style index attribute (`s`).
+	 * This is the cellXfs index in styles.xml as found in the source file.
+	 */
+	readonly styleId?: number;
 	readonly isMerged: boolean;
 	readonly master: Cell;
 	readonly isHyperlink: boolean;
@@ -528,6 +538,12 @@ export interface Row extends Style {
 	readonly dimensions: number;
 	model: Partial<RowModel> | null;
 	/**
+	 * Raw SpreadsheetML row style index attribute (`s`).
+	 * This is the cellXfs index in styles.xml as found in the source file.
+	 * Will be `undefined` when the `s` attribute is absent.
+	 */
+	readonly styleId?: number;
+	/**
 	 * Set a specific row height
 	 */
 	height: number;
@@ -578,7 +594,8 @@ export interface Row extends Style {
 	getCellEx(address: Address): Cell;
 
 	/**
-	 * Iterate over all non-null cells in a row
+	 * Iterate over all non-null cells in a row, plus cells that are explicitly styled
+	 * (e.g. cells present in an XLSX with only a style index and no value).
 	 */
 	eachCell(callback: (cell: Cell, colNumber: number) => void): void;
 
@@ -983,6 +1000,25 @@ export interface RowBreak {
 	man: number;
 }
 
+export interface WorksheetCol {
+	width?: number;
+	/**
+	 * SpreadsheetML `<col style="...">` attribute (cellXfs index).
+	 * Defaults to 0 when unspecified.
+	 */
+	style?: number;
+	hidden?: boolean;
+	bestFit?: boolean;
+	customWidth?: boolean;
+	outlineLevel?: number;
+	collapsed?: boolean;
+}
+
+export interface WorksheetColModel extends WorksheetCol {
+	min: number;
+	max: number;
+}
+
 export interface WorksheetModel {
 	id: number;
 	name: string;
@@ -1098,6 +1134,11 @@ export interface Worksheet {
 	name: string;
 	readonly workbook: Workbook;
 	readonly hasMerges: boolean;
+
+	/**
+	 * Raw worksheet `<cols>` model as loaded from xlsx.
+	 */
+	_cols: WorksheetColModel[] | null;
 
 	/**
 	 * Internal merge tracking.
@@ -1265,7 +1306,8 @@ export interface Worksheet {
 	getRows(start: number, length: number): Row[] | undefined;
 
 	/**
-	 * Iterate over all rows that have values in a worksheet
+	 * Iterate over all rows that have values in a worksheet, plus rows that exist for
+	 * formatting/geometry reasons (e.g. custom height) or contain explicitly styled empty cells.
 	 */
 	eachRow(callback: (row: Row, rowNumber: number) => void): void;
 
@@ -1273,6 +1315,12 @@ export interface Worksheet {
 	 * Iterate over all rows (including empty rows) in a worksheet
 	 */
 	eachRow(opt: { includeEmpty: boolean }, callback: (row: Row, rowNumber: number) => void): void;
+
+	/**
+	 * Iterate over all columns defined in the worksheet `<cols>` model,
+	 * expanding each record from `min..max`.
+	 */
+	eachCol(callback: (col: WorksheetCol, colNumber: number) => void): void;
 
 	/**
 	 * return all rows as sparse array
@@ -1761,24 +1809,24 @@ export interface OoxmlXfModel {
 	applyBorder?: boolean;
 	applyAlignment?: boolean;
 	applyProtection?: boolean;
-	alignment?: Alignment;
-	protection?: Protection;
+	alignment?: Partial<Alignment>;
+	protection?: Partial<Protection>;
 }
 
 export interface OoxmlStylesModel {
 	numFmts?: OoxmlNumFmtModel[];
-	fonts?: Font[];
+	fonts?: Partial<Font>[];
 	fills?: Fill[];
-	borders?: Borders[];
+	borders?: Partial<Borders>[];
 	cellStyleXfs?: OoxmlXfModel[];
 	styles?: OoxmlXfModel[];
 	dxfs?: Array<{
-		alignment?: Alignment;
-		border?: Borders;
+		alignment?: Partial<Alignment>;
+		border?: Partial<Borders>;
 		fill?: Fill;
-		font?: Font;
+		font?: Partial<Font>;
 		numFmt?: OoxmlNumFmtModel;
-		protection?: Protection;
+		protection?: Partial<Protection>;
 	}>;
 }
 
