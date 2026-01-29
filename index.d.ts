@@ -243,6 +243,22 @@ export interface Color {
 	 * Choose a theme by index
 	 */
 	theme: number;
+
+	/**
+	 * The tint value applied to the theme color.
+	 * In OOXML this defaults to 0.0
+	 */
+	tint: number;
+
+	/**
+	 * Choose a color from the indexed color palette.
+	 */
+	indexed: number;
+
+	/**
+	 * Automatic color selection.
+	 */
+	auto: boolean;
 }
 
 export interface Border {
