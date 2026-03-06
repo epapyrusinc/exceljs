@@ -167,4 +167,20 @@ describe('Column', () => {
 
     expect(model[2].width).to.equal(9);
   });
+
+  it('preserves raw loaded styleId separately from style object', () => {
+    const sheet = createSheetMock();
+
+    const column = sheet.addColumn(1, {
+      styleId: 7,
+      style: {
+        numFmt: '0.00%',
+      },
+    });
+
+    expect(column.styleId).to.equal(7);
+    expect(column.style).to.deep.equal({numFmt: '0.00%'});
+    expect(column.defn.styleId).to.equal(7);
+    expect(column.defn.style).to.deep.equal({numFmt: '0.00%'});
+  });
 });

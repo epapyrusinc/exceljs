@@ -37,4 +37,19 @@ describe('typescript', () => {
       stream.on('error', reject);
     })
   });
+
+  it('exposes loaded column style ids in typings', async () => {
+    const wb = new ExcelJS.Workbook();
+    const ws = wb.addWorksheet('blort');
+    ws.getColumn(1).numFmt = '0.00';
+
+    const buffer = await wb.xlsx.writeBuffer({useStyles: true});
+
+    const wb2 = new ExcelJS.Workbook();
+    await wb2.xlsx.load(buffer);
+    const ws2 = wb2.getWorksheet('blort');
+    const styleId: number | undefined = ws2.getColumn(1).styleId;
+
+    expect(styleId).to.be.a('number');
+  });
 });

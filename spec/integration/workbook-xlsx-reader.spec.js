@@ -174,6 +174,32 @@ describe('WorkbookReader', () => {
     });
   });
 
+  describe('loaded column style ids', () => {
+    it('exposes raw column styleId alongside hydrated column.style', async () => {
+      const workbook = new ExcelJS.Workbook();
+      await workbook.xlsx.readFile(
+        './spec/integration/data/test-issue-877.xlsx'
+      );
+
+      const worksheet = workbook.getWorksheet();
+      const column = worksheet.getColumn(1);
+
+      expect(column.styleId).to.equal(2);
+      expect(column.style).to.deep.equal({
+        font: {
+          size: 10,
+          name: 'Arial',
+          family: 2,
+        },
+        border: {},
+        fill: {
+          type: 'pattern',
+          pattern: 'none',
+        },
+      });
+    });
+  });
+
   describe('with a spreadsheet that contains formulas', () => {
     before(function() {
       const testContext = this;

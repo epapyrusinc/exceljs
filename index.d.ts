@@ -667,6 +667,13 @@ export interface Column {
 	style: Partial<Style>;
 
 	/**
+	 * Raw SpreadsheetML column style index attribute (`<col style="...">`).
+	 * This is the cellXfs index in styles.xml as found in the source file.
+	 * Will be `undefined` for programmatically constructed columns unless explicitly loaded from XLSX.
+	 */
+	readonly styleId?: number;
+
+	/**
 	 * The cell values in the column
 	 */
 	values: CellValue;
