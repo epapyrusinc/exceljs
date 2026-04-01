@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "supply-chain-risk-auditor": {
+      "source": "trailofbits/skills",
+      "sourceType": "github",
+      "computedHash": "ff6a2a77feb9c6ce2c3f8616c2e9d98450e119ef87927e6389d51949f8db01ce"
+    }
+  }
+}
