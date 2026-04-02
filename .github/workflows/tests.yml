@@ -39,6 +39,7 @@ jobs:
           restore-keys: |
             v1-${{ runner.os }}-node-${{ matrix.node-version }}-npm-
       - run: npm install
+      - run: npx playwright install --with-deps chromium
       - run: npm test
         env:
           CI: true

@@ -1,10 +1,13 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 'use strict';
+
+const path = require('path');
 
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-terser');
-  grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-exorcise');
 
@@ -18,7 +21,7 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            src: ['./lib/**/*.js', './spec/browser/*.js'],
+            src: ['./lib/**/*.js'],
             dest: './build/',
           },
         ],
@@ -43,6 +46,10 @@ module.exports = function(grunt) {
           // enable source map for browserify
           debug: true,
           standalone: 'ExcelJS',
+          // crypto is not available in browsers; encryption requires server-side Node.js
+          builtins: Object.assign({}, require('browserify/lib/builtins'), {
+            crypto: path.resolve(__dirname, 'lib/utils/crypto-stub.js'),
+          }),
         },
       },
       bare: {
@@ -54,14 +61,6 @@ module.exports = function(grunt) {
         // keep the original source for source maps
         src: ['./lib/exceljs.browser.js'],
         dest: './dist/exceljs.js',
-      },
-      spec: {
-        options: {
-          transform: null,
-          browserifyOptions: null,
-        },
-        src: ['./build/spec/browser/exceljs.spec.js'],
-        dest: './build/web/exceljs.spec.js',
       },
     },
 
@@ -118,19 +117,6 @@ module.exports = function(grunt) {
           {src: './build/lib/exceljs.nodejs.js', dest: './dist/es5/index.js'},
           {src: './LICENSE', dest: './dist/LICENSE'},
         ],
-      },
-    },
-
-    jasmine: {
-      options: {
-        version: '3.8.0',
-        noSandbox: true,
-      },
-      dev: {
-        src: ['./dist/exceljs.js'],
-        options: {
-          specs: './build/web/exceljs.spec.js',
-        },
       },
     },
   });
