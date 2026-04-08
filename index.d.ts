@@ -880,27 +880,27 @@ export interface HeaderFooter {
 	/**
 	 * Set header string for odd pages, could format the string and `null` by default
 	 */
-	oddHeader: string,
+	oddHeader: string | null,
 	/**
 	 * Set footer string for odd pages, could format the string and `null` by default
 	 */
-	oddFooter: string,
+	oddFooter: string | null,
 	/**
 	 * Set header string for even pages, could format the string and `null` by default
 	 */
-	evenHeader: string,
+	evenHeader: string | null,
 	/**
 	 * Set footer string for even pages, could format the string and `null` by default
 	 */
-	evenFooter: string,
+	evenFooter: string | null,
 	/**
 	 * Set header string for the first page, could format the string and `null` by default
 	 */
-	firstHeader: string,
+	firstHeader: string | null,
 	/**
 	 * Set footer string for the first page, could format the string and `null` by default
 	 */
-	firstFooter: string
+	firstFooter: string | null
 }
 
 export type AutoFilter = string | {
@@ -1048,7 +1048,7 @@ export interface WorksheetModel {
 	// dataValidations: this.dataValidations.model,
 	properties: WorksheetProperties;
 	pageSetup: Partial<PageSetup>;
-	headerFooter: Partial<HeaderFooter>;
+	headerFooter: HeaderFooter;
 	rowBreaks: RowBreak[];
 	views: WorksheetView[];
 	autoFilter: AutoFilter;
@@ -1185,7 +1185,7 @@ export interface Worksheet {
 	/**
 	 * Worksheet Header and Footer
 	 */
-	headerFooter: Partial<HeaderFooter>;
+	headerFooter: HeaderFooter;
 
 	/**
 	 * Worksheet State
@@ -1866,7 +1866,7 @@ export interface WorkbookModel {
 	created: Date;
 	modified: Date;
 	properties: WorkbookProperties;
-	worksheets: Worksheet[];
+	worksheets: WorksheetModel[];
 	sheets: WorksheetModel[];
 	definedNames: DefinedNamesModel;
 	views: WorkbookView[];

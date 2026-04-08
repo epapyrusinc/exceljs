@@ -22,7 +22,8 @@ const fakeStyles = {
 };
 
 const fakeHyperlinkMap = {
-  H1: 'http://www.foo.com',
+  H1: {hyperlink: 'http://www.foo.com'},
+  H2: {hyperlink: 'http://www.bar.com', tooltip: 'Visit Bar'},
 };
 
 const expectations = [
@@ -323,6 +324,31 @@ const expectations = [
       hyperlink: 'http://www.foo.com',
     },
     tests: ['prepare', 'render', 'renderIn', 'parse', 'reconcile'],
+    options: {
+      sharedStrings: new SharedStringsXform(),
+      hyperlinks: [],
+      hyperlinkMap: fakeHyperlinkMap,
+      styles: fakeStyles,
+    },
+  },
+  {
+    title: 'Hyperlink with Tooltip',
+    create() {
+      return new CellXform();
+    },
+    parsedModel: {
+      address: 'H2',
+      type: Enums.ValueType.String,
+      value: 'www.bar.com',
+    },
+    reconciledModel: {
+      address: 'H2',
+      type: Enums.ValueType.Hyperlink,
+      text: 'www.bar.com',
+      hyperlink: 'http://www.bar.com',
+      tooltip: 'Visit Bar',
+    },
+    tests: ['reconcile'],
     options: {
       sharedStrings: new SharedStringsXform(),
       hyperlinks: [],
