@@ -3,6 +3,16 @@
 
 All notable changes since `0617362` are documented here.
 
+## 4.4.0-rc.4 (2026-04-08)
+
+### Changed
+- fix(deps): harden security - remove vulnerable deps and overrides (`405127d`)
+- fix(deps): upgrade dev toolchain and fix security vulnerabilities (`7c8b1fe`)
+- fix(deps): upgrade archiver to 7.x and fix security vulnerabilities (`6a79877`)
+
+### Fixed
+- fix: update HeaderFooter interface and hyperlink handling (`c99c112`)
+
 ## 4.4.0-rc.3 (2026-01-30)
 
 ### Fixed
