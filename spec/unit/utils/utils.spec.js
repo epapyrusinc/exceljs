@@ -65,5 +65,13 @@ describe('utils', () => {
 
       expect(dateConverted).to.deep.equal(myDate);
     });
+
+    it('should return non-numeric values unchanged', () => {
+      const rawFormulaResult = '27/08/2025 19:33:34';
+
+      const dateConverted = utils.excelToDate(rawFormulaResult, false);
+
+      expect(dateConverted).to.equal(rawFormulaResult);
+    });
   });
 });
